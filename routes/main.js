@@ -23,7 +23,9 @@ module.exports = function (app, shopData) {
       if (err) {
         res.redirect("./");
       }
-      res.send(result);
+      let newData = Object.assign({}, shopData, { availableBooks: result });
+      console.log(newData);
+      res.render("list.ejs", newData);
     });
   });
 
