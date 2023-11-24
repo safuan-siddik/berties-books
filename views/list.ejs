@@ -5,9 +5,10 @@
     <link rel="stylesheet" type="text/css" href="/main.css" />
   </head>
   <body>
-    <h1>Welcome to <%=shopName%></h1>
-    <p><a href="about">About <%=shopName%></a></p>
-    <p><a href="search">Search for books</a></p>
-    <p><a href="register">Register with us</a></p>
+    <h1><%=shopName%></h1>
+    <h2>Here are the books that we sell:</h2>
+    <% for(let i = 0; i < availableBooks.length; i++) { %>
+    <li><%= availableBooks[i].name%> £<%= availableBooks[i].price%></li>
+    <% } %>
   </body>
 </html>

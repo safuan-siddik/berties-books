@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Result <%=shopName%></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Search Result <%=shopName%></h1>
+    <h2>Exact Match:</h2>
+    <ul>
+      <% for (let i = 0; i < exactMatchBooks.length; i++) { %>
+      <li><%= exactMatchBooks[i].name %> £<%= exactMatchBooks[i].price %></li>
+      <% } %>
+    </ul>
+    <h2>Partial Match:</h2>
+    <ul>
+      <% for (let i = 0; i < partialMatchBooks.length; i++) { %>
+      <li>
+        <%= partialMatchBooks[i].name %> £<%= partialMatchBooks[i].price %>
+      </li>
+      <% } %>
+    </ul>
+  </body>
+</html>
