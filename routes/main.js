@@ -28,55 +28,6 @@ module.exports = function (app, shopData) {
         console.error(err.message);
         res.redirect("./");
       }
-
-      // Nested route: Display search result
-      app.get("/search-result", function (req, res) {
-        // Display a simple message indicating the search
-        res.send("You searched for: " + req.query.keyword);
-      });
-
-      // Route: Register Page
-      app.get("/register", function (req, res) {
-        res.render("register.ejs", shopData);
-      });
-
-      // Route: List Page
-      app.get("/list", function (req, res) {
-        // Query database to get all books
-        let sqlquery = "SELECT * FROM books";
-        // Execute SQL query
-        db.query(sqlquery, (err, result) => {
-          if (err) {
-            res.redirect("./");
-          }
-          // Prepare data for rendering list.ejs
-          let newData = Object.assign({}, shopData, { availableBooks: result });
-          console.log(newData.availableBooks[1].name);
-          res.render("list.ejs", newData);
-        });
-      });
-
-      // Route: Add Book Page
-      app.get("/addbook", function (req, res) {
-        res.render("addbook.ejs", shopData);
-      });
-
-      // Route: Bargain Books Page
-      app.get("/bargainbooks", function (req, res) {
-        // Query database for books with price less than 20.00
-        let sqlquery = "SELECT name, price FROM books WHERE price < 20.00";
-        // Execute SQL query
-        db.query(sqlquery, (err, result) => {
-          if (err) {
-            res.redirect("./");
-          }
-          // Prepare data for rendering bargainbooks.ejs
-          let newData = Object.assign({}, shopData, { bargainBooks: result });
-          res.render("bargainbooks.ejs", newData);
-        });
-      });
-
-      // Query database for books with a partial match to the search keyword
       let sqlPartialMatch = "SELECT * FROM books WHERE name LIKE ?";
       db.query(
         sqlPartialMatch,
@@ -97,8 +48,57 @@ module.exports = function (app, shopData) {
           res.render("search-result.ejs", newData);
         }
       );
+
+      // Nested route: Display search result
+      app.get("/search-result", function (req, res) {
+        // Display a simple message indicating the search
+        res.send("You searched for: " + req.query.keyword);
+      });
     });
   });
+
+  // Route: Register Page
+  app.get("/register", function (req, res) {
+    res.render("register.ejs", shopData);
+  });
+
+  // Route: List Page
+  app.get("/list", function (req, res) {
+    // Query database to get all books
+    let sqlquery = "SELECT * FROM books";
+    // Execute SQL query
+    db.query(sqlquery, (err, result) => {
+      if (err) {
+        res.redirect("./");
+      }
+      // Prepare data for rendering list.ejs
+      let newData = Object.assign({}, shopData, { availableBooks: result });
+      console.log(newData.availableBooks[1].name);
+      res.render("list.ejs", newData);
+    });
+  });
+
+  // Route: Add Book Page
+  app.get("/addbook", function (req, res) {
+    res.render("addbook.ejs", shopData);
+  });
+
+  // Route: Bargain Books Page
+  app.get("/bargainbooks", function (req, res) {
+    // Query database for books with price less than 20.00
+    let sqlquery = "SELECT name, price FROM books WHERE price < 20.00";
+    // Execute SQL query
+    db.query(sqlquery, (err, result) => {
+      if (err) {
+        res.redirect("./");
+      }
+      // Prepare data for rendering bargainbooks.ejs
+      let newData = Object.assign({}, shopData, { bargainBooks: result });
+      res.render("bargainbooks.ejs", newData);
+    });
+  });
+
+  // Query database for books with a partial match to the search keyword
 
   // Route: Book Added Page
   app.post("/bookadded", function (req, res) {
